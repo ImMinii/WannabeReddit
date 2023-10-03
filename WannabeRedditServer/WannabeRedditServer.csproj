@@ -15,4 +15,8 @@
       <ProjectReference Include="..\WannabeRedditShared\WannabeRedditShared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="WebAPI\Properties\launchSettings.json" />
+    </ItemGroup>
+
 </Project>
