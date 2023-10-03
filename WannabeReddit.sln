@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannabeReddit", "WannabeRed
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannabeRedditServer", "WannabeRedditServer\WannabeRedditServer.csproj", "{FC785DDE-0100-4C19-B1D3-4C4831921915}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannabeRedditShared", "WannabeRedditShared\WannabeRedditShared.csproj", "{E781DF80-F34E-4A73-B26C-E965A053A492}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{FC785DDE-0100-4C19-B1D3-4C4831921915}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FC785DDE-0100-4C19-B1D3-4C4831921915}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FC785DDE-0100-4C19-B1D3-4C4831921915}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E781DF80-F34E-4A73-B26C-E965A053A492}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E781DF80-F34E-4A73-B26C-E965A053A492}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E781DF80-F34E-4A73-B26C-E965A053A492}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E781DF80-F34E-4A73-B26C-E965A053A492}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
