@@ -1,0 +1,48 @@
+﻿@page "/CreateUser"
+@using WannabeReddit.HttpClients.ClientInterfaces
+@using WannabeRedditShared.Domain.DTOs
+@inject IUserService userService;
+<h3>CreateUser</h3>
+
+<div class="card">
+    <h3>Create User</h3>
+    <div class="form-group field">
+        <label>Username:</label>
+        <label>Password:</label>
+        <input type="text" @bind="username" @bind:event="oninput"/>
+        @if (!string.IsNullOrEmpty(resultMsg))
+        {
+            <label style="color: @color">@resultMsg</label>
+        }
+    </div>
+    <div class="button-row">
+        <button @onclick="Create" disabled="@(string.IsNullOrEmpty(username))" class="acceptbtn">Create</button>
+    </div>
+</div>
+
+@code {
+    private String username = "";
+    private String password = "";
+    private String resultMsg = "";
+    private String color = "";
+
+    private async Task Create()
+    {
+        resultMsg = "";
+
+        try
+        {
+            await userService.Create(new UserCreate(username, password));
+            username = "";
+            password = "";
+            resultMsg = "User success";
+            color = "green";
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            resultMsg = e.Message;
+            color = "red";
+        }
+    }
+}

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using WannabeReddit.Data;
+using WannabeReddit.HttpClients.ClientInterfaces;
+using WannabeReddit.HttpClients.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +13,8 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
 
-builder.Services.AddScoped(sp => new HttpClient({BaseAddress = }));
-builder.Services.AddScoped<>()
+builder.Services.AddScoped(sp => new HttpClient{BaseAddress = new Uri("http://localhost:5185/")});
+builder.Services.AddScoped<IUserService, UserHttpClient>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -14,14 +14,20 @@ public class UserHttpClient : IUserService
     {
         this.client = client;
     }
-    
+
     public async Task<User> Create(UserCreate dto)
     {
         HttpResponseMessage response = await client.PostAsJsonAsync("/users", dto);
         string result = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
-            throw new NotImplementedException();
+            throw new Exception(result);
         }
+
+        User user = JsonSerializer.Deserialize<User>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+        return user;
     }
 }
