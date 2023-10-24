@@ -11,6 +11,9 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 var app = builder.Build();
 
+builder.Services.AddScoped(sp => new HttpClient({BaseAddress = }));
+builder.Services.AddScoped<>()
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

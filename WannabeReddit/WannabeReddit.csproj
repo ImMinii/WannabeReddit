@@ -10,4 +10,11 @@
       <ProjectReference Include="..\WannabeRedditShared\WannabeRedditShared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Radzen.Blazor" Version="4.19.0" />
+    </ItemGroup>
+
+
+
+
 </Project>
