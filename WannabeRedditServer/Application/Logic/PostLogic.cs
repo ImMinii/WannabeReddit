@@ -76,6 +76,6 @@ public class PostLogic : IPostLogic
     
     private void ValidatePost(Post post)
     {
-        if (string.IsNullOrEmpty(post.Title)) throw new Exception("Title cannot be empty")
+        if (string.IsNullOrEmpty(post.Title)) throw new Exception("Title cannot be empty");
     }
 }
