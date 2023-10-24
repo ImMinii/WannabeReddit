@@ -38,23 +38,44 @@ public class PostLogic : IPostLogic
         return PostDao.GetAsync(dto);
     }
 
-    public Task UpdateAsync(PostUpdate dto)
+    public async Task UpdateAsync(PostUpdate dto)
     {
-        throw new NotImplementedException();
+        Post? existing = await PostDao.GetByIdAsync(dto.Id);
+        if (existing == null)
+        {
+            throw new Exception($"Post with ID {dto.Id} not found!");
+        }
+
+        User userToUse = dto.author ?? existing.Author;
+        string titleToUse = dto.Title ?? existing.Title;
+        string bodyToUse = dto.Body ?? existing.Body;
+
+        Post updated = new(titleToUse, bodyToUse, userToUse)
+        {
+            Id = existing.Id
+        };
+        ValidatePost(updated);
+        await PostDao.UpdateAsync(updated);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        await PostDao.DeleteAsync(id);
     }
 
-    public Task<PostBasic> GetByIdAsync(int id)
+    public async Task<PostBasic> GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        Post? post = await PostDao.GetByIdAsync(id);
+        if (post == null)
+        {
+            throw new Exception($"Post with id {id} not found");
+        }
+
+        return new PostBasic(post.Title, post.Body, post.Author, post.Id);
     }
     
     private void ValidatePost(Post post)
     {
-        throw new NotImplementedException();
+        if (string.IsNullOrEmpty(post.Title)) throw new Exception("Title cannot be empty")
     }
 }

@@ -1,10 +1,13 @@
-﻿namespace WannabeRedditShared.Domain.DTOs;
+﻿using WannabeRedditShared.Domain.Models;
+
+namespace WannabeRedditShared.Domain.DTOs;
 
 public class PostUpdate
 {
     public int Id { get; set; }
     public string Title { get; set; }
     public string Body { get; set; }
+    public User? author { get; set; }
 
     public PostUpdate(int id, string title, string body)
     {
