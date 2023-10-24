@@ -8,10 +8,9 @@ public class User
 
     // TODO(rune): Hvad ellers?
 
-    public User(string name, string passWord, int id)
+    public User(string name, string passWord)
     {
         Name = name;
         PassWord = passWord;
-        Id = id;
     }
 }

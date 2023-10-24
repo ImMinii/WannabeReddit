@@ -1,6 +1,10 @@
-﻿namespace WannabeRedditServer.Application.LogicInterfaces;
+﻿using WannabeRedditShared.Domain.DTOs;
+using WannabeRedditShared.Domain.Models;
 
-public class IUserLogic
+namespace WannabeRedditServer.Application.LogicInterfaces;
+
+public interface IUserLogic
 {
-    
+    public Task<User> CreateAsync(UserCreate dto);
+    public Task<IEnumerable<User>> GetAsync(SearchUserParametersDto userParametersDto);
 }

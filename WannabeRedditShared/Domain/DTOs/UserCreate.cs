@@ -2,10 +2,12 @@
 
 public class UserCreate
 {
-    public string Username { get;}
+    public String Name { get; }
+    public String PassWord { get; }
 
-    public UserCreate(string username)
+    public UserCreate(string name, string passWord)
     {
-        Username = username;
+        Name = name;
+        PassWord = passWord;
     }
 }
