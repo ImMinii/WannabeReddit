@@ -58,9 +58,9 @@ public class AuthController : ControllerBase
         return serializedToken;
 
     }
-    
-    
-    
+
+
+
     [HttpPost, Route("login")]
     public async Task<ActionResult> Login([FromBody] Userlogin userLoginDto)
     {
@@ -68,7 +68,7 @@ public class AuthController : ControllerBase
         {
             User user = await authService.ValidateUser(userLoginDto.Username, userLoginDto.Password);
             string token = GenerateJwt(user);
-    
+
             return Ok(token);
         }
         catch (Exception e)
@@ -76,5 +76,5 @@ public class AuthController : ControllerBase
             return BadRequest(e.Message);
         }
     }
-    
+
 }

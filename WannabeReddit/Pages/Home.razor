@@ -1,0 +1,38 @@
+﻿@page "/home"
+@using WannabeReddit.HttpClients.ClientInterfaces
+@using WannabeRedditShared.Domain.DTOs
+@using WannabeRedditShared.Domain.Models
+@inject IPostService PostService
+
+<PageTitle>Home</PageTitle>
+
+<h1>Posts</h1>
+@foreach (var post in posts)
+{
+    <hr/>
+    <p>
+        <a href='@("post/" + post.Id)'>@post.Title</a>
+    </p>
+    <p>
+        <span class="text-muted">Author: </span>
+        <span class="text-muted">@post.Author.Name</span>
+    </p>
+}
+
+@code {
+    private List<WannabeRedditShared.Domain.Models.Post> posts = new List<WannabeRedditShared.Domain.Models.Post>();
+    private readonly PostSearch searchParams = new(null, null, null);
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        await Search();
+    }
+
+    private async Task Search()
+    {
+        var fromServer = await PostService.GetPostsAsync(searchParams);
+        posts = fromServer.ToList();
+    }
+
+}
