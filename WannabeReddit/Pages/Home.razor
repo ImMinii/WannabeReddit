@@ -11,15 +11,16 @@
 {
     <hr/>
     <p>
-        <span class="h3">@post.Title</span>
-        <span class="- "></span>
+        <a href='@("post/" + post.Id)'>@post.Title</a>
+    </p>
+    <p>
+        <span class="text-muted">Author: </span>
         <span class="text-muted">@post.Author.Name</span>
     </p>
-    <p>@post.Body</p>
 }
 
 @code {
-    private List<Post> posts = new List<Post>();
+    private List<WannabeRedditShared.Domain.Models.Post> posts = new List<WannabeRedditShared.Domain.Models.Post>();
     private readonly PostSearch searchParams = new(null, null, null);
 
     protected override async Task OnInitializedAsync()

@@ -1,0 +1,35 @@
+﻿@page "/post/{Id}"
+@using WannabeReddit.HttpClients.ClientInterfaces
+@using WannabeRedditShared.Domain.DTOs
+@using WannabeRedditShared.Domain.Models
+@inject IPostService PostService
+
+<PageTitle>Home</PageTitle>
+
+<h1>@Post?.Title</h1>
+<p class="text-muted">
+    <span>Author: </span>
+    <span>@Post?.Author.Name</span>
+</p>
+
+<p>
+    @(Post?.Body)
+</p>
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    private Post Post { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (int.TryParse(Id, out int idInt))
+        {
+            Post = await PostService.GetPostAsync(idInt);
+        }
+    }
+}
