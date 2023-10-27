@@ -1,29 +1,37 @@
 ﻿@page "/home"
 @using WannabeReddit.HttpClients.ClientInterfaces
 @using WannabeRedditShared.Domain.DTOs
+@using WannabeRedditShared.Domain.Models
 @inject IPostService PostService
 
 <PageTitle>Home</PageTitle>
 
-<h1>Wannabe Reddit</h1>
-
-<p>Current count: @currentCount</p>
-
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+<h1>Posts</h1>
+@foreach (var post in posts)
+{
+    <hr/>
+    <p>
+        <span class="h3">@post.Title</span>
+        <span class="- "></span>
+        <span class="text-muted">@post.Author.Name</span>
+    </p>
+    <p>@post.Body</p>
+}
 
 @code {
-    private int currentCount = 0;
+    private List<Post> posts = new List<Post>();
+    private readonly PostSearch searchParams = new(null, null, null);
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        var posts = await PostService.GetPostsAsync(new PostSearch(null, null, null));
-        currentCount = posts.Count();
+        await Search();
     }
 
-    private void IncrementCount()
+    private async Task Search()
     {
-        currentCount++;
+        var fromServer = await PostService.GetPostsAsync(searchParams);
+        posts = fromServer.ToList();
     }
+
 }
