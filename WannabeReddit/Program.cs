@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Radzen;
 using WannabeReddit.Data;
 using WannabeReddit.HttpClients.ClientInterfaces;
 using WannabeReddit.HttpClients.Implementations;
@@ -13,6 +14,7 @@ builder.Services.AddSingleton<WeatherForecastService>();
 
 builder.Services.AddScoped(sp => new HttpClient{BaseAddress = new Uri("http://localhost:5185/")});
 builder.Services.AddScoped<IUserService, UserHttpClient>();
+builder.Services.AddScoped<DialogService>();
 
 var app = builder.Build();
 
