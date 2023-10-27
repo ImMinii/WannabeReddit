@@ -90,6 +90,7 @@
             PostCreate dto = new(user, postTitle,msg);
             await postService.CreateAsync(dto);
             showModal = true;
+            Proceed();
         }
         catch (Exception e)
         {
