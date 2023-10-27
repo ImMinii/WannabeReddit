@@ -25,6 +25,7 @@
     <ItemGroup>
       <Compile Remove="WebAPI\Services\IUserService.cs" />
       <Compile Remove="WebAPI\Services\UserService.cs" />
+      <Compile Remove="WebAPI\JwtRegisteredClaimNames.cs" />
     </ItemGroup>
 
 </Project>

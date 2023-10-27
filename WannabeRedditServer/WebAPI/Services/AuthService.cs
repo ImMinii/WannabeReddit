@@ -10,7 +10,7 @@ public class AuthService : IAuthService
 
     };
 
-    public Task<User> ValidateUser(string username, int id, string password)
+    public Task<User> ValidateUser(object username, object password)
     {
         User? existingUser = users.FirstOrDefault(u =>
             u.Name.Equals(username));
@@ -42,9 +42,12 @@ public class AuthService : IAuthService
 
         return Task.CompletedTask;
     }
-        
+    
+    
     public Task<User> GetUser(string username, string password)
     {
         throw new NotImplementedException();
     }
+
+ 
 }
