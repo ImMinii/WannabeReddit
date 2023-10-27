@@ -17,14 +17,15 @@
       <ProjectReference Include="..\WannabeRedditShared\WannabeRedditShared.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Include="WebAPI\Properties\launchSettings.json" />
-    </ItemGroup>
-
 
     <ItemGroup>
       <Compile Remove="WebAPI\Services\IUserService.cs" />
       <Compile Remove="WebAPI\Services\UserService.cs" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="WebAPI\Properties\launchSettings.json" />
     </ItemGroup>
 
 </Project>
