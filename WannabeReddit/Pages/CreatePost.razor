@@ -4,7 +4,7 @@
 @using WannabeRedditShared/Domain.DTOs
 @using WannabeRedditShared/Models
 @inject IUserService userService
-inject IPostService todoService
+@inject IPostService postService
 @inject NavigationManager navMgr
 
 @page "/createpost"
@@ -60,7 +60,9 @@ inject IPostService todoService
         msg = "";
         try
         {
-            user = new("Test123", "123");
+            user = new("juli175h", "123"){
+                Id = 2
+                };
         }
         catch (Exception e)
         {
@@ -86,7 +88,7 @@ inject IPostService todoService
         try
         {
             PostCreate dto = new(user, postTitle,msg);
-            //await todoService.CreateAsync(dto);
+            await postService.CreateAsync(dto);
             showModal = true;
         }
         catch (Exception e)
@@ -99,7 +101,7 @@ inject IPostService todoService
     private void Proceed()
     {
         showModal = false;
-        navMgr.NavigateTo("/ViewTodos");
+        navMgr.NavigateTo("/Home");
     }
 
 }

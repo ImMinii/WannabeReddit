@@ -6,4 +6,5 @@ namespace WannabeReddit.HttpClients.ClientInterfaces;
 public interface IPostService
 {
     public Task<IEnumerable<Post>> GetPostsAsync(PostSearch postSearch);
+    Task CreateAsync(PostCreate dto);
 }
