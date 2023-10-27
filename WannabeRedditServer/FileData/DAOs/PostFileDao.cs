@@ -1,4 +1,5 @@
 ﻿using WannabeRedditServer.Application.DaoInterfaces;
+using WannabeRedditShared;
 using WannabeRedditShared.Domain.DTOs;
 using WannabeRedditShared.Domain.Models;
 
@@ -32,8 +33,29 @@ public class PostFileDao : IPostDao
 
     public Task<IEnumerable<Post>> GetAsync(PostSearch searchParameters)
     {
-        // TODO(rune): Hvad skal man kunne søge efter?
-        throw new NotImplementedException();
+        var results = context.Posts.Where(post =>
+        {
+            bool ret = true;
+
+            if (searchParameters.titleContains != null)
+            {
+                ret &= post.Title.ContainsIgnoreCase(searchParameters.titleContains);
+            }
+
+            if (searchParameters.authorName != null)
+            {
+                ret &= post.Author.Name.ContainsIgnoreCase(searchParameters.authorName);
+            }
+
+            if (searchParameters.bodyContains != null)
+            {
+                ret &= post.Body.ContainsIgnoreCase(searchParameters.bodyContains);
+            }
+
+            return ret;
+        });
+
+        return Task.FromResult(results);
     }
 
     public Task<Post?> GetByIdAsync(int id)
