@@ -13,7 +13,7 @@ namespace WannabeRedditServer.WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class AuthController
+public class AuthController : ControllerBase
 {
     private readonly IConfiguration config;
     private readonly IAuthService authService;
@@ -58,9 +58,9 @@ public class AuthController
         return serializedToken;
 
     }
-    
-    
-    
+
+
+
     [HttpPost, Route("login")]
     public async Task<ActionResult> Login([FromBody] UserCreate userLoginDto)
     {
@@ -68,7 +68,7 @@ public class AuthController
         {
             User user = await authService.ValidateUser(userLoginDto.Name, userLoginDto.PassWord);
             string token = GenerateJwt(user);
-    
+
             return Ok(token);
         }
         catch (Exception e)
@@ -76,5 +76,5 @@ public class AuthController
             return BadRequest(e.Message);
         }
     }
-    
+
 }
