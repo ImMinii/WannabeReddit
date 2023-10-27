@@ -33,7 +33,7 @@ public class PostController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Post>>> GetAsync([FromQuery] string? authorName, [FromQuery] string? tileContains, [FromQuery] string? bodyContains) // TODO(rune): Query parametre?
+    public async Task<ActionResult<IEnumerable<Post>>> GetAsync([FromQuery] string? authorName, [FromQuery] string? tileContains, [FromQuery] string? bodyContains)
     {
         try
         {

@@ -15,6 +15,7 @@ builder.Services.AddScoped(sp => new HttpClient{BaseAddress = new Uri("http://lo
 builder.Services.AddScoped<IUserService, UserHttpClient>();
 
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

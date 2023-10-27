@@ -2,6 +2,11 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using WannabeRedditServer.Application.DaoInterfaces;
+using WannabeRedditServer.Application.Logic;
+using WannabeRedditServer.Application.LogicInterfaces;
+using WannabeRedditServer.FileData;
+using WannabeRedditServer.FileData.DAOs;
 using WannabeRedditServer.WebAPI.Properties;
 using WannabeRedditShared.Auth;
 
@@ -29,6 +34,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddSingleton<FileContext>();
+builder.Services.AddSingleton<IPostDao, PostFileDao>();
+builder.Services.AddSingleton<IUserDao, UserFileDao>();
+builder.Services.AddSingleton<IPostLogic, PostLogic>();
+builder.Services.AddSingleton<IUserLogic, UserLogic>();
 
 AuthorizationPolicies.AddPolicies(builder.Services);
 
@@ -60,4 +70,3 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
-

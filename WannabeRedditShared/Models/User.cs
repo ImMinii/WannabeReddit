@@ -13,4 +13,4 @@ public class User
         Name = name;
         PassWord = passWord;
     }
-}
+} 
