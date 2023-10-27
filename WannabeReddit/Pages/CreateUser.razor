@@ -2,14 +2,19 @@
 @using WannabeReddit.HttpClients.ClientInterfaces
 @using WannabeRedditShared.Domain.DTOs
 @inject IUserService userService;
-<h3>CreateUser</h3>
 
 <div class="card">
     <h3>Create User</h3>
     <div class="form-group field">
         <label>Username:</label>
-        <label>Password:</label>
         <input type="text" @bind="username" @bind:event="oninput"/>
+        @if (!string.IsNullOrEmpty(resultMsg))
+        {
+            <label style="color: @color">@resultMsg</label>
+        }
+        <div></div>
+        <label>Password:</label>
+        <input type="text" @bind="password" @bind:event="oninput"/>
         @if (!string.IsNullOrEmpty(resultMsg))
         {
             <label style="color: @color">@resultMsg</label>
@@ -25,7 +30,7 @@
     private String password = "";
     private String resultMsg = "";
     private String color = "";
-
+    
     private async Task Create()
     {
         resultMsg = "";
