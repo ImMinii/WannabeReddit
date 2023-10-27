@@ -55,17 +55,26 @@ public class PostHttpClient : IPostService
         {
             throw new Exception("GetFromJsonAsync() returned null. MSDN documentation does not say why.");
         }
-
         return posts;
     }
 
     public async Task CreateAsync(PostCreate dto)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync("/post",dto);
+        HttpResponseMessage response = await client.PostAsJsonAsync("/post", dto);
         if (!response.IsSuccessStatusCode)
         {
             string content = await response.Content.ReadAsStringAsync();
             throw new Exception(content);
         }
+    }
+
+    public async Task<Post> GetPostAsync(int id)
+    {
+        var post = await client.GetFromJsonAsync<Post>("/post/" + id, jsonOptions);
+        if (post == null)
+        {
+            throw new Exception("GetFromJsonAsync() returned null. MSDN documentation does not say why.");
+        }
+        return post;
     }
 }
