@@ -82,6 +82,14 @@ public class PostFileDao : IPostDao
 
     public Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        Post? existing = context.Posts.FirstOrDefault(post => post.Id == id);
+        if (existing == null)
+        {
+            throw new Exception($"cannot delete post with id {id}, because it does not exist.");
+        }
+
+        context.Posts.Remove(existing);
+        context.SaveChanges();
+        return Task.CompletedTask;
     }
 }
