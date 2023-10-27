@@ -11,11 +11,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 
-var app = builder.Build();
-
 builder.Services.AddScoped(sp => new HttpClient{BaseAddress = new Uri("http://localhost:5185/")});
 builder.Services.AddScoped<IUserService, UserHttpClient>();
 
+var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
