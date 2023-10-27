@@ -1,0 +1,106 @@
+﻿@using WannabeRedditShared.Domain.DTOs
+@using WannabeRedditShared.Domain.Models
+@using HttpClients.ClientInterfaces
+@using WannabeRedditShared/Domain.DTOs
+@using WannabeRedditShared/Models
+@inject IUserService userService
+inject IPostService todoService
+@inject NavigationManager navMgr
+
+@page "/createpost"
+
+<PageTitle>Create Post</PageTitle>
+
+<h1>Create post</h1>
+
+<div class="card">
+    @if (user == null)
+    {
+        <label>No users, you cannot create a Todo</label>
+    }
+    else
+    {
+        <h3>Create Post</h3>
+        <div class="form-group field">
+            <label>Assignee:</label>
+            <label>@user.Name</label>
+        </div>
+        <div class="form-group field">
+            <label>Title:</label>
+            <input type="text" @bind="postTitle"/>
+        </div>
+        <div class="form-group field">
+            <label>Body:</label>
+            
+            
+            <RadzenHtmlEditor style="height: 300px;"  UploadUrl="upload/image" />
+           
+        </div>
+        <div class="button-row">
+            @if (!string.IsNullOrEmpty(msg))
+            {
+                <label style="color: red">@msg</label>
+            }
+            <button @onclick="Create" class="acceptbtn">Create</button>
+        </div>
+    }
+</div>
+
+@code {
+    private IEnumerable<User>? users;
+    private User user;
+    private string postTitle = "";
+
+    private string msg = "";
+
+    private bool showModal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            user = new("Test123", "123");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private async Task Create()
+    {
+        msg = "";
+        if (user == null)
+        {
+            msg = "user must be logged in";
+            return;
+        }
+        if (string.IsNullOrEmpty(postTitle))
+        {
+            msg = "Title cannot be empty!";
+            return;
+        }
+
+        try
+        {
+            PostCreate dto = new(user, postTitle,msg);
+            //await todoService.CreateAsync(dto);
+            showModal = true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private void Proceed()
+    {
+        showModal = false;
+        navMgr.NavigateTo("/ViewTodos");
+    }
+
+}
+}
