@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="Radzen.Blazor" Version="4.19.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="8.0.0-rc.2.23480.2" />
     </ItemGroup>
 
 </Project>
