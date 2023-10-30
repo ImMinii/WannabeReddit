@@ -1,7 +1,9 @@
 ﻿using System.Net;
+using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Web;
 using WannabeReddit.HttpClients.ClientInterfaces;
+using WannabeReddit.Services;
 using WannabeRedditShared.Domain.DTOs;
 using WannabeRedditShared.Domain.Models;
 using WannabeRedditShared;
@@ -55,17 +57,8 @@ public class PostHttpClient : IPostService
         {
             throw new Exception("GetFromJsonAsync() returned null. MSDN documentation does not say why.");
         }
-        return posts;
-    }
 
-    public async Task CreateAsync(PostCreate dto)
-    {
-        HttpResponseMessage response = await client.PostAsJsonAsync("/post", dto);
-        if (!response.IsSuccessStatusCode)
-        {
-            string content = await response.Content.ReadAsStringAsync();
-            throw new Exception(content);
-        }
+        return posts;
     }
 
     public async Task<Post> GetPostAsync(int id)
@@ -76,5 +69,17 @@ public class PostHttpClient : IPostService
             throw new Exception("GetFromJsonAsync() returned null. MSDN documentation does not say why.");
         }
         return post;
+    }
+
+    public async Task CreateAsync(PostCreate dto)
+    {
+        JwtAuthService.ApplyJwt(client);
+
+        HttpResponseMessage response = await client.PostAsJsonAsync("/post", dto);
+        if (!response.IsSuccessStatusCode)
+        {
+            string content = await response.Content.ReadAsStringAsync();
+            throw new Exception("CreateAsync failed with status code " + response.StatusCode + ". Content: " + content);
+        }
     }
 }

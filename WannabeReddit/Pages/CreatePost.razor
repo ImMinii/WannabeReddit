@@ -36,12 +36,13 @@
 
         </div>
         <div class="button-row">
-            @if (!string.IsNullOrEmpty(msg))
-            {
-                <label style="color: red">@msg</label>
-            }
             <button @onclick="Create" class="acceptbtn">Create</button>
         </div>
+
+        @if (!string.IsNullOrEmpty(msg))
+        {
+            <label style="color: red">@msg</label>
+        }
     }
 </div>
 
