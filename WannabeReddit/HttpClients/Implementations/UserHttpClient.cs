@@ -1,4 +1,5 @@
-﻿using System.Net.Http.Json;
+﻿using System.Net;
+using System.Net.Http.Json;
 using System.Text.Json;
 using WannabeReddit.HttpClients.ClientInterfaces;
 using WannabeRedditShared.Domain.DTOs;
@@ -23,7 +24,10 @@ public class UserHttpClient : IUserService
     {
         HttpResponseMessage response = await client.PostAsJsonAsync("/user", dto);
         string content = await response.Content.ReadAsStringAsync();
-        if (!response.IsSuccessStatusCode)
+
+        // NOTE(rune): BadRequest hvis brugernavn er optaget mm. -> smid ikke exception,
+        // da UserCreateResult indeholder validation error bedskeden.
+        if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.BadRequest)
         {
             throw new Exception(content);
         }
