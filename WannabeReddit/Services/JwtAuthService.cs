@@ -54,7 +54,7 @@ public class JwtAuthService : IAuthService
     
     public async Task LoginAsync(string username, string password)
     {
-        Userlogin userLoginDto = new()
+        UserLogin userLoginDto = new()
         {
             Username = username,
             Password = password

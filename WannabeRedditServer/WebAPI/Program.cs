@@ -7,7 +7,6 @@ using WannabeRedditServer.Application.Logic;
 using WannabeRedditServer.Application.LogicInterfaces;
 using WannabeRedditServer.FileData;
 using WannabeRedditServer.FileData.DAOs;
-using WannabeRedditServer.WebAPI.Properties;
 using WannabeRedditShared.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +32,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthLogic, AuthLogic>();
 builder.Services.AddSingleton<FileContext>();
 builder.Services.AddSingleton<IPostDao, PostFileDao>();
 builder.Services.AddSingleton<IUserDao, UserFileDao>();
