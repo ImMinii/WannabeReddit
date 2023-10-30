@@ -46,7 +46,7 @@ public class PostLogic : IPostLogic
             throw new Exception($"Post with ID {dto.Id} not found!");
         }
 
-        User userToUse = dto.author ?? existing.Author;
+        User userToUse = existing.Author;
         string titleToUse = dto.Title ?? existing.Title;
         string bodyToUse = dto.Body ?? existing.Body;
 
