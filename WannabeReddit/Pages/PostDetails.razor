@@ -11,7 +11,7 @@
 </p>
 
 <p>
-    @(Post?.Body)
+    @postBodyMarkup
 </p>
 
 @code {
@@ -21,6 +21,8 @@
 
     private Post Post { get; set; }
 
+    private MarkupString postBodyMarkup;
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
@@ -28,6 +30,17 @@
         if (int.TryParse(Id, out int idInt))
         {
             Post = await PostService.GetPostAsync(idInt);
+
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            // TODO(rune): MEGET USIKKERT!
+            postBodyMarkup = (MarkupString)Post.Body;
         }
     }
 }

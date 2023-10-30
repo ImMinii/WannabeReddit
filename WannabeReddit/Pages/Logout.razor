@@ -1,0 +1,12 @@
+﻿@page "/Logout"
+@using WannabeReddit.Services
+@inject IAuthService authService
+@inject NavigationManager navMgr
+
+<h3>Goodbye</h3>
+
+@code {
+    protected override async Task OnInitializedAsync() {
+        await authService.LogoutAsync();
+    }
+}
