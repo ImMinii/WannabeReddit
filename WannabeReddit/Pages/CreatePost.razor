@@ -2,7 +2,6 @@
 @using WannabeRedditShared.Domain.Models
 @using HttpClients.ClientInterfaces
 @using System.Security.Claims
-@inject IUserService userService
 @inject IPostService postService
 @inject NavigationManager navMgr
 
@@ -51,8 +50,6 @@
 
     private string msg = "";
 
-    private bool showModal;
-
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
 
@@ -73,7 +70,6 @@
         try {
             PostCreate dto = new(postTitle, postBody);
             await postService.CreateAsync(dto);
-            showModal = true;
             Proceed();
         } catch (Exception e) {
             Console.WriteLine(e);
@@ -82,12 +78,10 @@
     }
 
     private void Proceed() {
-        showModal = false;
         navMgr.NavigateTo("/");
     }
 
     private void LogIn() {
         navMgr.NavigateTo("/Login");
     }
-
 }

@@ -20,10 +20,8 @@ builder.Services.AddServerSideBlazor();
 // NOTE(rune): Port 7093 -> samme som i WannabeRedditServer/Properties/launchSettings.json
 builder.Services.AddScoped(sp => new HttpClient{BaseAddress = new Uri("https://localhost:7093/")});
 builder.Services.AddScoped<IPostService, PostHttpClient>();
-builder.Services.AddScoped<IUserService, UserHttpClient>();
-builder.Services.AddScoped<DialogService>();
-
 builder.Services.AddScoped<IAuthService, JwtAuthService>();
+builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 
 AuthorizationPolicies.AddPolicies(builder.Services);

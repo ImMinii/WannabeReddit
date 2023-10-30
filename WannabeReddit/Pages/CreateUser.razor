@@ -1,7 +1,8 @@
 ﻿@page "/CreateUser"
 @using WannabeReddit.HttpClients.ClientInterfaces
+@using WannabeReddit.Services
 @using WannabeRedditShared.Domain.DTOs
-@inject IUserService userService;
+@inject IAuthService authService;
 
 <div class="card">
     <h3>Create User</h3>
@@ -32,9 +33,8 @@
     {
         resultMsg = "";
 
-        try
-        {
-            var userCreateResult = await userService.Create(new UserCreate(username, password));
+        try {
+            var userCreateResult = await authService.RegisterAsync(new UserCreate(username, password));
             if (userCreateResult.HasValidationError) {
                 resultMsg = userCreateResult.ValidationError;
                 color = "red";
