@@ -30,18 +30,21 @@
     private String password = "";
     private String resultMsg = "";
     private String color = "";
-    
+
     private async Task Create()
     {
         resultMsg = "";
 
         try
         {
-            await userService.Create(new UserCreate(username, password));
-            username = "";
-            password = "";
-            resultMsg = "User success";
-            color = "green";
+            var userCreateResult = await userService.Create(new UserCreate(username, password));
+            if (userCreateResult.HasValidationError) {
+                resultMsg = userCreateResult.ValidationError;
+                color = "red";
+            } else {
+                resultMsg = "User success";
+                color = "green";
+            }
         }
         catch (Exception e)
         {

@@ -9,25 +9,26 @@ namespace WannabeReddit.HttpClients.Implementations;
 public class UserHttpClient : IUserService
 {
     private readonly HttpClient client;
+    private readonly JsonSerializerOptions jsonOptions;
 
     public UserHttpClient(HttpClient client)
     {
         this.client = client;
+        this.jsonOptions = new JsonSerializerOptions {
+            PropertyNameCaseInsensitive = true
+        };
     }
 
-    public async Task<User> Create(UserCreate dto)
+    public async Task<UserCreateResult> Create(UserCreate dto)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync("/users", dto);
-        string result = await response.Content.ReadAsStringAsync();
+        HttpResponseMessage response = await client.PostAsJsonAsync("/user", dto);
+        string content = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
-            throw new Exception(result);
+            throw new Exception(content);
         }
 
-        User user = JsonSerializer.Deserialize<User>(result, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true
-        })!;
-        return user;
+        UserCreateResult result = JsonSerializer.Deserialize<UserCreateResult>(content, jsonOptions)!;
+        return result;
     }
 }
