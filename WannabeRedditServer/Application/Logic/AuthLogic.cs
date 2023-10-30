@@ -57,8 +57,19 @@ public class AuthLogic : IAuthLogic
         return registeredUser;
     }
 
-    public Task<User> GetUser(string username, string password)
+    public async Task<User> GetUser(string username, string password)
     {
-        throw new NotImplementedException();
+        User? user = await userDao.GetByUsernameAsync(username);
+        if (user == null)
+        {
+            throw new Exception("User not found");
+        }
+
+        if (!user.PassWord.Equals(password))
+        {
+            throw new Exception("Password mismatch");
+        }
+
+        return user;
     }
 }

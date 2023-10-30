@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System.Net;
+using System.Net.Http.Headers;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using WannabeRedditShared.Domain.DTOs;
@@ -8,11 +10,23 @@ namespace WannabeReddit.Services;
 
 public class JwtAuthService : IAuthService
 {
-    private readonly HttpClient client = new();
+    private readonly HttpClient client;
 
     public static string? Jwt { get; private set; } = "";
 
-    public Action<ClaimsPrincipal> onAuthStateChanged { get; set; } = null!;
+    public Action<ClaimsPrincipal> OnAuthStateChanged { get; set; }
+
+    private readonly JsonSerializerOptions jsonOptions;
+
+    public JwtAuthService(HttpClient client)
+    {
+        this.client = client;
+        this.OnAuthStateChanged = (_) => { };
+        this.jsonOptions = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+    }
 
     private static IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
     {
@@ -34,9 +48,9 @@ public class JwtAuthService : IAuthService
                 break;
         }
 
-        return Convert.FromBase64String(base64); 
+        return Convert.FromBase64String(base64);
     }
-    
+
     private static ClaimsPrincipal CreateClaimsPrincipal()
     {
         if (string.IsNullOrEmpty(Jwt))
@@ -45,13 +59,13 @@ public class JwtAuthService : IAuthService
         }
 
         IEnumerable<Claim> claims = ParseClaimsFromJwt(Jwt);
-    
+
         ClaimsIdentity identity = new(claims, "jwt");
 
         ClaimsPrincipal principal = new(identity);
         return principal;
     }
-    
+
     public async Task LoginAsync(string username, string password)
     {
         UserLogin userLoginDto = new()
@@ -60,10 +74,7 @@ public class JwtAuthService : IAuthService
             Password = password
         };
 
-        string userAsJson = JsonSerializer.Serialize(userLoginDto);
-        StringContent content = new(userAsJson, Encoding.UTF8, "application/json");
-
-        HttpResponseMessage response = await client.PostAsync("https://localhost:7130/auth/login", content);
+        HttpResponseMessage response = await client.PostAsJsonAsync("/auth/login", userLoginDto);
         string responseContent = await response.Content.ReadAsStringAsync();
 
         if (!response.IsSuccessStatusCode)
@@ -79,23 +90,38 @@ public class JwtAuthService : IAuthService
         OnAuthStateChanged.Invoke(principal);
     }
 
-    //todo: mangler at lave noget 
-    // kan måske hjælpe https://troelsmortensen.github.io/CodeLabs/Tutorials/BlazorWasmJwtAuth/Page.html 
-    
     public Task LogoutAsync()
     {
-        throw new NotImplementedException();
+        Jwt = null;
+        ClaimsPrincipal principal = new();
+        OnAuthStateChanged.Invoke(principal);
+        return Task.CompletedTask;
     }
 
-    public Task RegisterAsync(User user)
+    public async Task<UserCreateResult> RegisterAsync(UserCreate userCreate)
     {
-        throw new NotImplementedException();
+        HttpResponseMessage response = await client.PostAsJsonAsync("/auth/register", userCreate);
+        string content = await response.Content.ReadAsStringAsync();
+
+        // NOTE(rune): BadRequest hvis brugernavn er optaget mm. -> smid ikke exception,
+        // da UserCreateResult indeholder validation error bedskeden.
+        if (!response.IsSuccessStatusCode && response.StatusCode != HttpStatusCode.BadRequest)
+        {
+            throw new Exception(content);
+        }
+
+        UserCreateResult result = JsonSerializer.Deserialize<UserCreateResult>(content, jsonOptions)!;
+        return result;
     }
 
-    public async Task<ClaimsPrincipal> GetAuthAsync()
+    public Task<ClaimsPrincipal> GetAuthAsync()
     {
-        throw new NotImplementedException();
+        ClaimsPrincipal principal = CreateClaimsPrincipal();
+        return Task.FromResult(principal);
     }
 
-    public Action<ClaimsPrincipal> OnAuthStateChanged { get; set; }
+    public static void ApplyJwt(HttpClient client)
+    {
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", JwtAuthService.Jwt);
+    }
 }
