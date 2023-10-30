@@ -16,7 +16,7 @@
     {
         <label>You can't post when not logged in</label>
         <label>click here to log in</label>
-        <button href="/login">Log in</button>
+        <button @onClick="LogIn">Log in</button>
     }
     else
     {
@@ -104,6 +104,11 @@
     {
         showModal = false;
         navMgr.NavigateTo("/Home");
+    }
+
+    private void LogIn()
+    {
+        navMgr.NavigateTo("/Login");
     }
 
 }
