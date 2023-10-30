@@ -29,9 +29,4 @@
       <_ContentIncludedByDefault Remove="WebAPI\Properties\launchSettings.json" />
     </ItemGroup>
 
-
-    <ItemGroup>
-      <Folder Include="WebAPI\Services\" />
-    </ItemGroup>
-
 </Project>
