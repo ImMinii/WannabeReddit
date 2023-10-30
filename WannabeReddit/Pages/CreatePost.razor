@@ -12,11 +12,11 @@
 <h1>Create post</h1>
 
 <div class="card">
-    @if (user != null)
+    @if (user == null)
     {
         <label>You can't post when not logged in</label>
         <label>click here to log in</label>
-        <button @onClick="LogIn">Log in</button>
+        <button @onclick="LogIn">Log in</button>
     }
     else
     {
