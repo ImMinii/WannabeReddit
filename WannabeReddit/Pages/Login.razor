@@ -29,6 +29,10 @@
                 <button class="loginbtn" @onclick="LoginAsync">Log in</button>
             </div>
         </div>
+        <div>
+            <h4>Don't have an account?</h4>
+            <button @onclick="CreateUser" >Register</button>
+        </div>
     </NotAuthorized>
     <Authorized>
         <div class="card">
@@ -75,7 +79,7 @@
         try
         {
             await authService.LoginAsync(userName, password);
-            navMgr.NavigateTo("/");
+            navMgr.NavigateTo("/Home");
         }
         catch (Exception e)
         {
@@ -83,4 +87,10 @@
             errorLabel = $"Error: {e.Message}";
         }
     }
+
+    private void CreateUser()
+    {
+        navMgr.NavigateTo("/CreateUser");
+    }
+
 }

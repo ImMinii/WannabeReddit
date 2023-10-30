@@ -21,7 +21,7 @@
 
 @code {
     private List<WannabeRedditShared.Domain.Models.Post> posts = new List<WannabeRedditShared.Domain.Models.Post>();
-    private readonly PostSearch searchParams = new(null, null, null);
+    private readonly PostSearchParam _searchParamParams = new(null, null, null);
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,7 +31,7 @@
 
     private async Task Search()
     {
-        var fromServer = await PostService.GetPostsAsync(searchParams);
+        var fromServer = await PostService.GetPostsAsync(_searchParamParams);
         posts = fromServer.ToList();
     }
 

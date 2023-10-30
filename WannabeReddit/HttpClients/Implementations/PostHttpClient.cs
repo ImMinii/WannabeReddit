@@ -22,26 +22,26 @@ public class PostHttpClient : IPostService
         };
     }
 
-    public async Task<IEnumerable<Post>> GetPostsAsync(PostSearch postSearch)
+    public async Task<IEnumerable<Post>> GetPostsAsync(PostSearchParam postSearchParam)
     {
         // NOTE(rune): REST convention er dumt??? Hvorfor ikke bare sende PostSearch
         // som json ligesom alt andent? Er der en C# api til query parametre, eller
         // burdre vi lave vores egen wrapper?
 
         var queryArgs = new List<string>();
-        if (postSearch.authorName != null)
+        if (postSearchParam.authorName != null)
         {
-            queryArgs.Add("authorName=" + WebUtility.UrlEncode(postSearch.authorName));
+            queryArgs.Add("authorName=" + WebUtility.UrlEncode(postSearchParam.authorName));
         }
 
-        if (postSearch.titleContains != null)
+        if (postSearchParam.titleContains != null)
         {
-            queryArgs.Add("titleContains=" + WebUtility.UrlEncode(postSearch.titleContains));
+            queryArgs.Add("titleContains=" + WebUtility.UrlEncode(postSearchParam.titleContains));
         }
 
-        if (postSearch.bodyContains != null)
+        if (postSearchParam.bodyContains != null)
         {
-            queryArgs.Add("bodyContains=" + WebUtility.UrlEncode(postSearch.bodyContains));
+            queryArgs.Add("bodyContains=" + WebUtility.UrlEncode(postSearchParam.bodyContains));
         }
 
         var queryString = "";

@@ -29,9 +29,9 @@ public class UserLogic : IUserLogic
 
     }
 
-    public Task<IEnumerable<User>> GetAsync(SearchUserParametersDto userParametersDto)
+    public Task<IEnumerable<User>> GetAsync(UserSearchParam param)
     {
-        return UserDao.GetAsync(userParametersDto);
+        return UserDao.GetAsync(param);
     }
 
     private async Task<string> ValidateData(UserCreate dto)

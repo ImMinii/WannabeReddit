@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WannabeRedditServer.Application.DaoInterfaces;
 using WannabeRedditServer.Application.LogicInterfaces;
 using WannabeRedditShared.Domain.DTOs;
@@ -17,6 +18,7 @@ public class PostController : ControllerBase
         this.postLogic = postLogic;
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<Post>> CreateAsync([FromBody]PostCreate dto) // NOTE(rune): POST!
     {
@@ -37,7 +39,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            PostSearch parameters = new(authorName, tileContains, bodyContains);
+            PostSearchParam parameters = new(authorName, tileContains, bodyContains);
             var posts = await postLogic.GetAsync(parameters);
             return Ok(posts);
         }
@@ -64,6 +66,7 @@ public class PostController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpPatch]
     public async Task<ActionResult<Post>> Update([FromBody]PostUpdate dto)
     {
@@ -79,6 +82,7 @@ public class PostController : ControllerBase
         }
     }
 
+    [Authorize]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteAsync([FromRoute] int id)
     {

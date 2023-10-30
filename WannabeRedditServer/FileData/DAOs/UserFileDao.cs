@@ -35,13 +35,13 @@ public class UserFileDao : IUserDao
         return Task.FromResult(existing);
     }
 
-    public Task<IEnumerable<User>> GetAsync(SearchUserParametersDto searchParameters)
+    public Task<IEnumerable<User>> GetAsync(UserSearchParam userSearchParameters)
     {
         IEnumerable<User> users = context.Users.AsEnumerable();
-        if (searchParameters.UsernameContains != null)
+        if (userSearchParameters.UsernameContains != null)
         {
             users = context.Users.Where(u =>
-                u.Name.Contains(searchParameters.UsernameContains, StringComparison.OrdinalIgnoreCase));
+                u.Name.Contains(userSearchParameters.UsernameContains, StringComparison.OrdinalIgnoreCase));
         }
 
         return Task.FromResult(users);

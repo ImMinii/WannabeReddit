@@ -1,10 +1,10 @@
 ﻿namespace WannabeRedditShared.Domain.DTOs;
 
-public class SearchUserParametersDto
+public class UserSearchParam
 {
     public string? UsernameContains { get;  }
 
-    public SearchUserParametersDto(string? usernameContains)
+    public UserSearchParam(string? usernameContains)
     {
         UsernameContains = usernameContains;
     }
