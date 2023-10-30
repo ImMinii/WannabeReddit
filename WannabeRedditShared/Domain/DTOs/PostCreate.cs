@@ -4,8 +4,8 @@ namespace WannabeRedditShared.Domain.DTOs;
 
 public class PostCreate
 {
-    public string Title { get; set; }
-    public string Body { get; set; }
+    public string Title { get; }
+    public string Body { get; }
 
     public PostCreate(string title, string body)
     {
