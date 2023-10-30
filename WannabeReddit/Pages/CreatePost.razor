@@ -7,7 +7,6 @@
 @inject NavigationManager navMgr
 
 @page "/createpost"
-@attribute [Authorize]
 
 <PageTitle>Create Post</PageTitle>
 
@@ -60,7 +59,7 @@
     protected override async Task OnInitializedAsync() {
         AuthenticationState authState = await AuthState;
         ClaimsPrincipal user = authState.User;
-        username = user.Identity!.Name!;
+        username = user.Claims.FirstOrDefault(x => x.Type == "DisplayName")?.Value ?? "Not logged in";
     }
 
     private async Task Create() {
