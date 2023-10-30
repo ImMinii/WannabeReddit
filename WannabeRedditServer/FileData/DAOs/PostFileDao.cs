@@ -31,25 +31,25 @@ public class PostFileDao : IPostDao
         return Task.FromResult(post);
     }
 
-    public Task<IEnumerable<Post>> GetAsync(PostSearch searchParameters)
+    public Task<IEnumerable<Post>> GetAsync(PostSearchParam searchParamParameters)
     {
         var results = context.Posts.Where(post =>
         {
             bool ret = true;
 
-            if (searchParameters.titleContains != null)
+            if (searchParamParameters.titleContains != null)
             {
-                ret &= post.Title.ContainsIgnoreCase(searchParameters.titleContains);
+                ret &= post.Title.ContainsIgnoreCase(searchParamParameters.titleContains);
             }
 
-            if (searchParameters.authorName != null)
+            if (searchParamParameters.authorName != null)
             {
-                ret &= post.Author.Name.ContainsIgnoreCase(searchParameters.authorName);
+                ret &= post.Author.Name.ContainsIgnoreCase(searchParamParameters.authorName);
             }
 
-            if (searchParameters.bodyContains != null)
+            if (searchParamParameters.bodyContains != null)
             {
-                ret &= post.Body.ContainsIgnoreCase(searchParameters.bodyContains);
+                ret &= post.Body.ContainsIgnoreCase(searchParamParameters.bodyContains);
             }
 
             return ret;

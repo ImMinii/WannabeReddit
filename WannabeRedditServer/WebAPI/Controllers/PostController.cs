@@ -37,7 +37,7 @@ public class PostController : ControllerBase
     {
         try
         {
-            PostSearch parameters = new(authorName, tileContains, bodyContains);
+            PostSearchParam parameters = new(authorName, tileContains, bodyContains);
             var posts = await postLogic.GetAsync(parameters);
             return Ok(posts);
         }

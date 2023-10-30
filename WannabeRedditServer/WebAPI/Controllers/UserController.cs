@@ -37,7 +37,7 @@ public class UserController : ControllerBase
     {
         try
         {
-            SearchUserParametersDto parameters = new(userNameContains);
+            UserSearchParam parameters = new(userNameContains);
             IEnumerable<User> users = await userLogic.GetAsync(parameters);
             return Ok(users);
         }

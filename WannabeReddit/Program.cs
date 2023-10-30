@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Components.Web;
 using WannabeReddit.Auth;
 
 using Radzen;
-using WannabeReddit.Data;
 using WannabeReddit.HttpClients.ClientInterfaces;
 using WannabeReddit.HttpClients.Implementations;
 using WannabeReddit.Services;
@@ -16,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+
 
 // NOTE(rune): Port 7093 -> samme som i WannabeRedditServer/Properties/launchSettings.json
 builder.Services.AddScoped(sp => new HttpClient{BaseAddress = new Uri("https://localhost:7093/")});
