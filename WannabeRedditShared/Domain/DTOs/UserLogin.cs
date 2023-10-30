@@ -1,7 +1,10 @@
 ﻿namespace WannabeRedditShared.Domain.DTOs;
 
-public class Userlogin
+public class UserLogin
 {
     public string Username { get; init; }
     public string Password { get; init; }
+}
+
+    public String Password { get; init; }
 }

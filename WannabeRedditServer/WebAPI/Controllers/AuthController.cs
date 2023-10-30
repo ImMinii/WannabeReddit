@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WannabeRedditServer.WebAPI.Properties;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 using WannabeRedditShared.Domain.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.IdentityModel.Tokens;
+using WannabeRedditServer.Application.LogicInterfaces;
 using WannabeRedditShared.Domain.DTOs;
 
 
@@ -16,15 +17,15 @@ namespace WannabeRedditServer.WebAPI.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IConfiguration config;
-    private readonly IAuthService authService;
+    private readonly IAuthLogic _authLogic;
 
-    public AuthController(IConfiguration config, IAuthService authService)
+    public AuthController(IConfiguration config, IAuthLogic authLogic)
     {
         this.config = config;
-        this.authService = authService;
+        this._authLogic = authLogic;
     }
 
-    private List<Claim> generateClaims(User user)
+    private List<Claim> GenerateClaims(User user)
     {
         var claims = new[]
         {
@@ -38,7 +39,7 @@ public class AuthController : ControllerBase
 
     private string GenerateJwt(User user)
     {
-        List<Claim> claims = generateClaims(user);
+        List<Claim> claims = GenerateClaims(user);
 
         SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Jwt:Key"]));
         SigningCredentials signIn = new SigningCredentials(key, SecurityAlgorithms.HmacSha512);
@@ -59,16 +60,13 @@ public class AuthController : ControllerBase
 
     }
 
-
-
     [HttpPost, Route("login")]
-    public async Task<ActionResult> Login([FromBody] Userlogin userLoginDto)
+    public async Task<ActionResult> Login([FromBody] UserLogin userLoginDto)
     {
         try
         {
-            User user = await authService.ValidateUser(userLoginDto.Username, userLoginDto.Password);
+            User user = await _authLogic.ValidateUser(userLoginDto.Username, userLoginDto.Password);
             string token = GenerateJwt(user);
-
             return Ok(token);
         }
         catch (Exception e)
@@ -77,4 +75,21 @@ public class AuthController : ControllerBase
         }
     }
 
+    [HttpPost, Route("register")]
+    public async Task<ActionResult<UserCreateResult>> Register([FromBody] UserCreate userCreate)
+    {
+        try
+        {
+            User user = await _authLogic.RegisterUser(userCreate.Name, userCreate.PassWord);
+            return Ok(new UserCreateResult(user, ""));
+        }
+        catch (ValidationException e)
+        {
+            return BadRequest(new UserCreateResult(null, e.Message));
+        }
+        catch (Exception e)
+        {
+            return StatusCode(500, e.Message);
+        }
+    }
 }

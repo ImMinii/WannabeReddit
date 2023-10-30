@@ -5,5 +5,5 @@ namespace WannabeReddit.HttpClients.ClientInterfaces;
 
 public interface IUserService
 {
-    Task<User> Create(UserCreate dto);
+    Task<UserCreateResult> Create(UserCreate dto);
 }

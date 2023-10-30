@@ -1,8 +1,6 @@
 ﻿@using WannabeRedditShared.Domain.DTOs
 @using WannabeRedditShared.Domain.Models
 @using HttpClients.ClientInterfaces
-@using WannabeRedditShared/Domain.DTOs
-@using WannabeRedditShared/Models
 @inject IUserService userService
 @inject IPostService postService
 @inject NavigationManager navMgr
@@ -16,7 +14,9 @@
 <div class="card">
     @if (user == null)
     {
-        <label>No users, you cannot create a Todo</label>
+        <label>You can't post when not logged in</label>
+        <label>click here to log in</label>
+        <button @onclick="LogIn">Log in</button>
     }
     else
     {
@@ -31,10 +31,10 @@
         </div>
         <div class="form-group field">
             <label>Body:</label>
-            
-            
+
+
             <RadzenHtmlEditor @bind-Value="postBody" style="height: 300px;"  UploadUrl="upload/image" />
-           
+
         </div>
         <div class="button-row">
             @if (!string.IsNullOrEmpty(msg))
@@ -106,5 +106,9 @@
         navMgr.NavigateTo("/Home");
     }
 
-}
+    private void LogIn()
+    {
+        navMgr.NavigateTo("/Login");
+    }
+
 }

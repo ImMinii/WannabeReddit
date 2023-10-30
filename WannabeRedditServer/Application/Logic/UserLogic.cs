@@ -14,20 +14,18 @@ public class UserLogic : IUserLogic
         UserDao = userDao;
     }
 
-    public async Task<User> CreateAsync(UserCreate dto)
+    public async Task<UserCreateResult> CreateAsync(UserCreate dto)
     {
-        User? existing = await UserDao.GetByUsernameAsync(dto.Name);
-        if (existing != null)
-        {
-            throw new Exception("Username already taken");
+        string validationError = await ValidateData(dto);
+        if (validationError != "") {
+            return new UserCreateResult(null, validationError);
         }
 
-        ValidateData(dto);
-
         User toCreate = new User(dto.Name, dto.PassWord);
-
         User created = await UserDao.CreateAsync(toCreate);
-        return created;
+
+
+        return new UserCreateResult(created, validationError);
 
     }
 
@@ -35,9 +33,20 @@ public class UserLogic : IUserLogic
     {
         return UserDao.GetAsync(userParametersDto);
     }
-    
-    private void ValidateData(UserCreate dto)
+
+    private async Task<string> ValidateData(UserCreate dto)
     {
-        //Todo hvad skal validates? Password længde måske?
+        User? existing = await UserDao.GetByUsernameAsync(dto.Name);
+        if (existing != null)
+        {
+            return "Username already taken";
+        }
+
+        if (dto.PassWord.Length < 8)
+        {
+            return "Password must be 8 or more characters.";
+        }
+
+        return "";
     }
 }
