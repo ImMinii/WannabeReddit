@@ -1,8 +1,6 @@
 ﻿@using WannabeRedditShared.Domain.DTOs
 @using WannabeRedditShared.Domain.Models
 @using HttpClients.ClientInterfaces
-@using WannabeRedditShared/Domain.DTOs
-@using WannabeRedditShared/Models
 @inject IUserService userService
 @inject IPostService postService
 @inject NavigationManager navMgr
@@ -14,9 +12,11 @@
 <h1>Create post</h1>
 
 <div class="card">
-    @if (user == null)
+    @if (user != null)
     {
-        <label>No users, you cannot create a Todo</label>
+        <label>You can't post when not logged in</label>
+        <label>click here to log in</label>
+        <button href="/login">Log in</button>
     }
     else
     {
@@ -106,5 +106,4 @@
         navMgr.NavigateTo("/Home");
     }
 
-}
 }
