@@ -64,7 +64,6 @@ builder.Services.AddSingleton<FileContext>();
 builder.Services.AddSingleton<IPostDao, PostFileDao>();
 builder.Services.AddSingleton<IUserDao, UserFileDao>();
 builder.Services.AddSingleton<IPostLogic, PostLogic>();
-builder.Services.AddSingleton<IUserLogic, UserLogic>();
 
 AuthorizationPolicies.AddPolicies(builder.Services);
 
