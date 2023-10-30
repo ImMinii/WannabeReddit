@@ -5,7 +5,7 @@ namespace WannabeRedditServer.Application.LogicInterfaces;
 
 public interface IPostLogic
 {
-    Task<Post> CreateAsync(PostCreate dto);
+    Task<Post> CreateAsync(int authorId, PostCreate dto);
     Task<IEnumerable<Post>> GetAsync(PostSearchParam dto);
     Task UpdateAsync(PostUpdate dto);
     Task DeleteAsync(int id);

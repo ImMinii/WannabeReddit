@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WannabeRedditServer.Application.DaoInterfaces;
 using WannabeRedditServer.Application.LogicInterfaces;
@@ -24,7 +25,11 @@ public class PostController : ControllerBase
     {
         try
         {
-            Post created = await postLogic.CreateAsync(dto);
+            ClaimsPrincipal currentUser = this.User;
+            Claim authorIdClaim = currentUser.Claims.First(x => x.Type == "AuthorId");
+            int authorId = int.Parse(authorIdClaim.Value);
+
+            Post created = await postLogic.CreateAsync(authorId, dto);
             return Created($"posts/{created.Id}", created);
         }
         catch (Exception e)

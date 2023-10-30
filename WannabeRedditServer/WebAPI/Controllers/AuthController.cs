@@ -32,7 +32,8 @@ public class AuthController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Sub, config["Jwt:Subject"]),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim("DisplayName", user.Name)
+            new Claim("DisplayName", user.Name),
+            new Claim("AuthorId", user.Id.ToString()),
         };
         return claims.ToList();
     }

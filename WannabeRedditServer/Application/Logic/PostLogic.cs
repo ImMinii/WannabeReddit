@@ -16,13 +16,12 @@ public class PostLogic : IPostLogic
         UserDao = userDao;
     }
 
-
-    public async Task<Post> CreateAsync(PostCreate dto)
+    public async Task<Post> CreateAsync(int authorId, PostCreate dto)
     {
-        User? user = await UserDao.GetByIdAsync(dto.Author.Id);
+        User? user = await UserDao.GetByIdAsync(authorId);
         if ( user == null)
         {
-            throw new Exception($"Author with id {dto.Author.Id} was not found");
+            throw new Exception($"Author with id {authorId} was not found");
         }
 
         Post post = new Post(dto.Title, dto.Body, user);
@@ -31,7 +30,7 @@ public class PostLogic : IPostLogic
         Post created = await PostDao.CreateAsync(post);
         return created;
     }
-    
+
 
     public Task<IEnumerable<Post>> GetAsync(PostSearchParam dto)
     {
@@ -73,7 +72,7 @@ public class PostLogic : IPostLogic
 
         return new PostBasic(post.Title, post.Body, post.Author, post.Id);
     }
-    
+
     private void ValidatePost(Post post)
     {
         if (string.IsNullOrEmpty(post.Title)) throw new Exception("Title cannot be empty");
