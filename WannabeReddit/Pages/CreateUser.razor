@@ -8,21 +8,18 @@
     <div class="form-group field">
         <label>Username:</label>
         <input type="text" @bind="username" @bind:event="oninput"/>
-        @if (!string.IsNullOrEmpty(resultMsg))
-        {
-            <label style="color: @color">@resultMsg</label>
-        }
+
         <div></div>
         <label>Password:</label>
         <input type="text" @bind="password" @bind:event="oninput"/>
-        @if (!string.IsNullOrEmpty(resultMsg))
-        {
-            <label style="color: @color">@resultMsg</label>
-        }
     </div>
     <div class="button-row">
         <button @onclick="Create" disabled="@(string.IsNullOrEmpty(username))" class="acceptbtn">Create</button>
     </div>
+    @if (!string.IsNullOrEmpty(resultMsg))
+    {
+        <label style="color: @color">@resultMsg</label>
+    }
 </div>
 
 @code {
@@ -30,18 +27,21 @@
     private String password = "";
     private String resultMsg = "";
     private String color = "";
-    
+
     private async Task Create()
     {
         resultMsg = "";
 
         try
         {
-            await userService.Create(new UserCreate(username, password));
-            username = "";
-            password = "";
-            resultMsg = "User success";
-            color = "green";
+            var userCreateResult = await userService.Create(new UserCreate(username, password));
+            if (userCreateResult.HasValidationError) {
+                resultMsg = userCreateResult.ValidationError;
+                color = "red";
+            } else {
+                resultMsg = "User success";
+                color = "green";
+            }
         }
         catch (Exception e)
         {

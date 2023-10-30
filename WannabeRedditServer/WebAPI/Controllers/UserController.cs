@@ -15,15 +15,19 @@ public class UserController : ControllerBase
     {
         this.userLogic = userLogic;
     }
-    
-    
+
+
     [HttpPost]
-    public async Task<ActionResult<User>> CreateAsync(UserCreate dto)
+    public async Task<ActionResult<UserCreateResult>> CreateAsync(UserCreate dto)
     {
         try
         {
-            User user = await userLogic.CreateAsync(dto);
-            return Created($"/users/{user.Id}", user);
+            UserCreateResult result = await userLogic.CreateAsync(dto);
+            if (result.HasValidationError) {
+                return BadRequest(result);
+            } else {
+                return Created($"/user/{result.User!.Id}", result);
+            }
         }
         catch (Exception e)
         {

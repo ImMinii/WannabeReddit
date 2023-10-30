@@ -6,5 +6,7 @@ namespace WannabeRedditServer.Application.LogicInterfaces;
 public interface IUserLogic
 {
     public Task<User> CreateAsync(UserCreate dto);
-    public Task<IEnumerable<User>> GetAsync(UserSearchParam param);
+
+    public Task<UserCreateResult> CreateAsync(UserCreate dto);
+
 }
