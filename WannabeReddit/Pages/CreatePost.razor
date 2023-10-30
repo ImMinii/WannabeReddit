@@ -9,8 +9,40 @@
 
 <PageTitle>Create Post</PageTitle>
 
-
-<div class="card">
+<AuthorizeView>
+    <NotAuthorized>
+        <label>You can't post when not logged in</label>
+                <label>click here to log in</label>
+                <button @onclick="LogIn">Log in</button>
+    </NotAuthorized>
+    <Authorized>
+        <h3>Create Post</h3>
+                <div class="form-group field">
+                    <label>Assignee:</label>
+                    <label>@user.Name</label>
+                </div>
+                <div class="form-group field">
+                    <label>Title:</label>
+                    <input type="text" @bind="postTitle"/>
+                </div>
+                <div class="form-group field">
+                    <label>Body:</label>
+        
+        
+                    <RadzenHtmlEditor @bind-Value="postBody" style="height: 300px;"  UploadUrl="upload/image" />
+        
+                </div>
+                <div class="button-row">
+                    <button @onclick="Create" class="acceptbtn">Create</button>
+                </div>
+        
+                @if (!string.IsNullOrEmpty(msg))
+                {
+                    <label style="color: red">@msg</label>
+                }
+    </Authorized>
+</AuthorizeView>
+<!--<div class="card">
     @if (user == null)
     {
         <label>You can't post when not logged in</label>
@@ -44,7 +76,7 @@
             <label style="color: red">@msg</label>
         }
     }
-</div>
+</div>-->
 
 @code {
     private IEnumerable<User>? users;
