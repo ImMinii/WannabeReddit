@@ -33,7 +33,7 @@
             <label>Body:</label>
             
             
-            <RadzenHtmlEditor style="height: 300px;"  UploadUrl="upload/image" />
+            <RadzenHtmlEditor @bind-Value="postBody" style="height: 300px;"  UploadUrl="upload/image" />
            
         </div>
         <div class="button-row">
@@ -50,6 +50,7 @@
     private IEnumerable<User>? users;
     private User user;
     private string postTitle = "";
+    private string postBody = "";
 
     private string msg = "";
 
@@ -87,9 +88,10 @@
 
         try
         {
-            PostCreate dto = new(user, postTitle,msg);
+            PostCreate dto = new(user, postTitle,postBody);
             await postService.CreateAsync(dto);
             showModal = true;
+            Proceed();
         }
         catch (Exception e)
         {

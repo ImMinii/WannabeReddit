@@ -1,7 +1,21 @@
-﻿POST https://localhost:7130/Auth/login
+﻿POST https://localhost:5185/Auth/login
 Content-Type: application/json
 
 { 
   "Username" :  "Julie",
   "Password" : "Hello234"
 }
+
+### todo: kan ikke få den det at gøre det den skal 
+# kig i https://troelsmortensen.github.io/CodeLabs/Tutorials/BlazorWasmJwtAuth/Page.html 
+# test login
+
+### 
+
+GET http://localhost:5185/Test/authorized
+
+
+###
+
+GET https://localhost:5185/test/authorized
+Authorization: Bearer 

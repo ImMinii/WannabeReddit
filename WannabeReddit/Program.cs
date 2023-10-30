@@ -1,9 +1,15 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
+
+using WannabeReddit.Auth;
+
 using Radzen;
 using WannabeReddit.Data;
 using WannabeReddit.HttpClients.ClientInterfaces;
 using WannabeReddit.HttpClients.Implementations;
+using WannabeReddit.Services;
+using WannabeRedditShared.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,6 +23,11 @@ builder.Services.AddScoped(sp => new HttpClient{BaseAddress = new Uri("https://l
 builder.Services.AddScoped<IPostService, PostHttpClient>();
 builder.Services.AddScoped<IUserService, UserHttpClient>();
 builder.Services.AddScoped<DialogService>();
+
+builder.Services.AddScoped<IAuthService, JwtAuthService>();
+builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
+
+AuthorizationPolicies.AddPolicies(builder.Services);
 
 var app = builder.Build();
 
