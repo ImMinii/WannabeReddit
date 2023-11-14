@@ -12,9 +12,7 @@ public class User
 
     [JsonIgnore]
     public ICollection<Post> Posts { get; set; }
-
-    private User() {}
-
+    
     public User(string name, string passWord)
     {
         Name = name;

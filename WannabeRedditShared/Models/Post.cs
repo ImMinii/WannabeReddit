@@ -11,8 +11,6 @@ public class Post
     public string Title { get; set; }
     public string Body { get; set; }
 
-    private Post() {}
-
     public Post(string title, string body, User author)
     {
         Title = title;
