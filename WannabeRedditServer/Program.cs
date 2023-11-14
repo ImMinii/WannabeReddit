@@ -6,6 +6,7 @@ using Microsoft.OpenApi.Models;
 using WannabeRedditServer.Application.DaoInterfaces;
 using WannabeRedditServer.Application.Logic;
 using WannabeRedditServer.Application.LogicInterfaces;
+using WannabeRedditServer.Efc;
 using WannabeRedditServer.FileData;
 using WannabeRedditServer.FileData.DAOs;
 using WannabeRedditShared.Auth;
@@ -59,11 +60,11 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
+builder.Services.AddDbContext<WannabeRedditContext>();
 builder.Services.AddScoped<IAuthLogic, AuthLogic>();
-builder.Services.AddSingleton<FileContext>();
-builder.Services.AddSingleton<IPostDao, PostFileDao>();
-builder.Services.AddSingleton<IUserDao, UserFileDao>();
-builder.Services.AddSingleton<IPostLogic, PostLogic>();
+builder.Services.AddScoped<IPostDao, PostEfcDao>();
+builder.Services.AddScoped<IUserDao, UserEfcDao>();
+builder.Services.AddScoped<IPostLogic, PostLogic>();
 
 AuthorizationPolicies.AddPolicies(builder.Services);
 
