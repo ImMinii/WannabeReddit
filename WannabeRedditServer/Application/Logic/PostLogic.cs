@@ -24,7 +24,7 @@ public class PostLogic : IPostLogic
             throw new Exception($"Author with id {authorId} was not found");
         }
 
-        Post post = new Post(dto.Title, dto.Body, user);
+        Post post = new Post(dto.Title, dto.Body, user.Id);
 
         ValidatePost(post);
         Post created = await PostDao.CreateAsync(post);
@@ -49,7 +49,7 @@ public class PostLogic : IPostLogic
         string titleToUse = dto.Title ?? existing.Title;
         string bodyToUse = dto.Body ?? existing.Body;
 
-        Post updated = new(titleToUse, bodyToUse, userToUse)
+        Post updated = new(titleToUse, bodyToUse, userToUse.Id)
         {
             Id = existing.Id
         };

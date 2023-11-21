@@ -16,12 +16,6 @@ public class PostEfcDao : IPostDao {
     }
 
     public async Task<Post> CreateAsync(Post post) {
-        // TODO(rune): TEMP LØSNING. Spørg Troels.
-        // Hvis ikke vi sætter post.Author til null, prøver EFC at indsætte end ny User record.
-        // HVis ikke hvis sætter AuthorId prøver EFC at indsætte 0 i AuthorId kolonne.
-        post.AuthorId = post.Author.Id;
-        post.Author = null;
-
         EntityEntry<Post> newPost = await context.Posts.AddAsync(post);
         await context.SaveChangesAsync();
         return newPost.Entity;

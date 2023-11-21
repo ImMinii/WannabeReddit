@@ -11,8 +11,8 @@ public class User
     public string PassWord { get; set; }
 
     [JsonIgnore]
-    public ICollection<Post> Posts { get; set; }
-    
+    public ICollection<Post>? Posts { get; set; }
+
     public User(string name, string passWord)
     {
         Name = name;
